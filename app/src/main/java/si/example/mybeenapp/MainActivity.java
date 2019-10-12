@@ -1,41 +1,37 @@
 package si.example.mybeenapp;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class MainActivity extends AppCompatActivity {
+import si.example.mybeenapp.model.User;
 
+public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (savedInstanceState == null) {
+            UserFragment fragment = new UserFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.fragment_container, fragment, UserFragment.TAG)
+                    .commit();
         }
+    }
 
-        return super.onOptionsItemSelected(item);
+    public void navigateToAlbum(User user) {
+        AlbumFragment albumFragment = AlbumFragment.newInstance(user.id);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack(AlbumFragment.TAG)
+                .replace(R.id.fragment_container, albumFragment, AlbumFragment.TAG)
+                .commit();
     }
 }
