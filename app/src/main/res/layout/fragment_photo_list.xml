@@ -9,9 +9,10 @@
     </data>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/album_list"
+        android:id="@+id/photo_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"/>
 </layout>

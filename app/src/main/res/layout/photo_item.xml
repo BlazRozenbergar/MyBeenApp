@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="item"
+            type="si.example.mybeenapp.model.Photo" />
+        <variable
+            name="clickCallback"
+            type="si.example.mybeenapp.adapters.PhotoAdapter.OnClickCallback" />
+    </data>
+
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+
+            <ImageView
+                android:id="@+id/image_url"
+                imageUrl="@{item.thumbnailUrl}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="@{() -> clickCallback.onClick(item)}"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/image_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom"
+                android:textAlignment="center"
+                android:background="#ddffffff"
+                android:text="@{item.title}"/>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

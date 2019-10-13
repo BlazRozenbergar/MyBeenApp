@@ -12,22 +12,22 @@ import java.util.List;
 import java.util.Objects;
 
 import si.example.mybeenapp.R;
-import si.example.mybeenapp.databinding.RvUserListItemBinding;
-import si.example.mybeenapp.model.User;
+import si.example.mybeenapp.databinding.PhotoItemBinding;
+import si.example.mybeenapp.model.Photo;
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
-    private List<User> mOriginalList;
-    private OnClickCallback mOnClickCallback;
+public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder> {
+    private List<Photo> mOriginalList;
+    private PhotoAdapter.OnClickCallback mOnClickCallback;
 
     public interface OnClickCallback {
-        void onClick(User user);
+        void onClick(Photo album);
     }
 
-    public UserAdapter(OnClickCallback onClickCallback) {
+    public PhotoAdapter(PhotoAdapter.OnClickCallback onClickCallback) {
         this.mOnClickCallback = onClickCallback;
     }
 
-    public void setList(List<User> list) {
+    public void setList(List<Photo> list) {
         if (this.mOriginalList == null) {
             this.mOriginalList = list;
             if (mOriginalList != null) {
@@ -52,11 +52,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
                 @Override
                 public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-                    User newItem = list.get(newItemPosition);
-                    User oldItem = mOriginalList.get(oldItemPosition);
-                    return newItem.id == oldItem.id
-                            && Objects.equals(newItem.name, oldItem.name)
-                            && Objects.equals(newItem.username, oldItem.username);
+                    Photo newItem = list.get(newItemPosition);
+                    Photo oldItem = mOriginalList.get(oldItemPosition);
+                    return newItem.id == oldItem.id && Objects.equals(newItem.title, oldItem.title);
                 }
             });
             this.mOriginalList = list;
@@ -66,14 +64,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        RvUserListItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.rv_user_list_item, parent, false);
+    public PhotoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        PhotoItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.photo_item, parent, false);
         binding.setClickCallback(mOnClickCallback);
-        return new ViewHolder(binding);
+        return new PhotoViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PhotoViewHolder holder, int position) {
         holder.binding.setItem(mOriginalList.get(position));
         holder.binding.executePendingBindings();
     }
@@ -83,10 +81,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         return mOriginalList != null ? mOriginalList.size() : 0;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        final RvUserListItemBinding binding;
+    static class PhotoViewHolder extends RecyclerView.ViewHolder {
+        final PhotoItemBinding binding;
 
-        private ViewHolder(RvUserListItemBinding binding) {
+        private PhotoViewHolder(PhotoItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

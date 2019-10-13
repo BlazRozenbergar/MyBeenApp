@@ -10,10 +10,10 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.fragment.NavHostFragment;
 
 import si.example.mybeenapp.adapters.UserAdapter;
 import si.example.mybeenapp.databinding.FragmentUserListBinding;
-import si.example.mybeenapp.model.User;
 import si.example.mybeenapp.viewmodel.UserListViewModel;
 
 public class UserFragment extends Fragment {
@@ -30,16 +30,16 @@ public class UserFragment extends Fragment {
 
         mUserViewModel = ViewModelProviders.of(this).get(UserListViewModel.class);
         mUserViewModel.getUsers().observe(this, users -> {
-            mUserAdapter = new UserAdapter(new UserAdapter.OnClickCallback() {
-                @Override
-                public void onClick(User user) {
-                    ((MainActivity)getActivity()).navigateToAlbum(user);
-                }
-            });
+            mUserAdapter = new UserAdapter(onUserClickCallback);
             mUserAdapter.setList(users);
             mBinding.userList.setAdapter(mUserAdapter);
         });
 
         return mBinding.getRoot();
     }
+
+    private UserAdapter.OnClickCallback onUserClickCallback = user -> {
+        UserFragmentDirections.ActionUserToAlbum directions = UserFragmentDirections.actionUserToAlbum(user.id);
+        NavHostFragment.findNavController(this).navigate(directions);
+    };
 }
