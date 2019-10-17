@@ -6,12 +6,32 @@
         <variable
             name="isLoading"
             type="boolean" />
+        <variable
+            name="isOffline"
+            type="boolean" />
     </data>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/user_list"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/user_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/progress_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/Widget.AppCompat.ProgressBar"
+            visibleGone="@{isLoading}"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="No internet connection"
+            visibleGone="@{isOffline}" />
+    </FrameLayout>
 </layout>

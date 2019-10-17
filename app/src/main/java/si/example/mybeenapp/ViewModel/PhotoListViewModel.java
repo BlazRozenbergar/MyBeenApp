@@ -15,17 +15,18 @@ import si.example.mybeenapp.model.Photo;
 
 public class PhotoListViewModel extends AndroidViewModel {
     private final MediatorLiveData<List<Photo>> mObservable;
+    private final int mAlbumId;
 
     public PhotoListViewModel(@NonNull Application application, final int albumId) {
         super(application);
 
-        mObservable = new MediatorLiveData<>();
-        mObservable.setValue(null);
-
-        mObservable.addSource(ApiRepository.getInstance().getPhotos(albumId), mObservable::setValue);
+        this.mObservable = new MediatorLiveData<>();
+        this.mAlbumId = albumId;
+        //mObservable.setValue(null);
     }
 
     public MediatorLiveData<List<Photo>> getPhotos() {
+        mObservable.addSource(ApiRepository.getInstance().getPhotos(mAlbumId), mObservable::setValue);
         return mObservable;
     }
 

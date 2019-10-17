@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        //Set title and add actionbar navigation
         NavigationUI.setupActionBarWithNavController(this, navController);
 
     }

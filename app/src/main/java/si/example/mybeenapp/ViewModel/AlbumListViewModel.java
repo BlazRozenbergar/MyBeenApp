@@ -3,7 +3,6 @@ package si.example.mybeenapp.viewmodel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.ObservableField;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModel;
@@ -18,34 +17,31 @@ public class AlbumListViewModel extends AndroidViewModel {
     private final MediatorLiveData<List<Album>> mObservable;
     private final int mUserId;
 
-    public AlbumListViewModel(@NonNull Application application, ApiRepository repository, final int userId) {
+    public AlbumListViewModel(@NonNull Application application, final int userId) {
         super(application);
 
-        mUserId = userId;
-        mObservable = new MediatorLiveData<>();
-        mObservable.setValue(null);
-
-        mObservable.addSource(repository.getAlbums(mUserId), mObservable::setValue);
+        this.mUserId = userId;
+        this.mObservable = new MediatorLiveData<>();
+        //mObservable.setValue(null);
     }
 
     public MediatorLiveData<List<Album>> getAlbums() {
+        mObservable.addSource(ApiRepository.getInstance().getAlbums(mUserId), mObservable::setValue);
         return mObservable;
     }
 
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
         private final Application mApplication;
         private final int mUserId;
-        private final ApiRepository mRepository;
 
         public Factory(@NonNull Application application, int userId) {
             this.mApplication = application;
             this.mUserId = userId;
-            this.mRepository = ApiRepository.getInstance();
         }
 
         @Override
         public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-            return (T) new AlbumListViewModel(mApplication, mRepository, mUserId);
+            return (T) new AlbumListViewModel(mApplication, mUserId);
         }
     }
 }

@@ -8,11 +8,22 @@
             type="boolean" />
     </data>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/photo_list"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"/>
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/photo_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"/>
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/progress_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/Widget.AppCompat.ProgressBar"
+            visibleGone="@{isLoading}"/>
+    </FrameLayout>
 </layout>

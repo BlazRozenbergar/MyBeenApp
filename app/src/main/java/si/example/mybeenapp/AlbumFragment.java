@@ -22,6 +22,7 @@ public class AlbumFragment extends Fragment {
 
     private AlbumFragmentArgs mArgs;
     private FragmentAlbumListBinding mBinding;
+    private AlbumListViewModel mViewModel;
     private AlbumAdapter mAdapter;
 
     @Override
@@ -34,7 +35,7 @@ public class AlbumFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_album_list, container, false);
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(true); //set has menu to true so that we can handle onBackPressed
         mAdapter = new AlbumAdapter(onAlbumClick);
         mBinding.albumList.setAdapter(mAdapter);
         return mBinding.getRoot();
@@ -50,10 +51,10 @@ public class AlbumFragment extends Fragment {
         AlbumListViewModel.Factory factory = new AlbumListViewModel.Factory(
                 requireActivity().getApplication(), mArgs.getUserId());
 
-        final AlbumListViewModel viewModel = new ViewModelProvider(this, factory)
+        mViewModel = new ViewModelProvider(this, factory)
                 .get(AlbumListViewModel.class);
 
-        addToModel(viewModel);
+        getData();
     }
 
     @Override
@@ -67,8 +68,8 @@ public class AlbumFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void addToModel(final AlbumListViewModel model) {
-        model.getAlbums().observe(this, albums -> mAdapter.setList(albums));
+    private void getData() {
+        mViewModel.getAlbums().observe(this, albums -> mAdapter.setList(albums));
     }
 
     private AlbumAdapter.OnClickCallback onAlbumClick = album -> {

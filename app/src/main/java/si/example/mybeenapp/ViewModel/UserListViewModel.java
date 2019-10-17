@@ -18,12 +18,13 @@ public class UserListViewModel extends AndroidViewModel {
         super(application);
 
         mObservable = new MediatorLiveData<>();
-        mObservable.setValue(null);
-
-        mObservable.addSource(ApiRepository.getInstance().getUsers(), mObservable::setValue);
+        //mObservable.setValue(null);
     }
 
+
+
     public MediatorLiveData<List<User>> getUsers() {
+        mObservable.addSource(ApiRepository.getInstance().getUsers(), mObservable::setValue);
         return mObservable;
     }
 }

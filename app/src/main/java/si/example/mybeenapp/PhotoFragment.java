@@ -21,6 +21,7 @@ public class PhotoFragment extends Fragment {
 
     private PhotoFragmentArgs mArgs;
     private FragmentPhotoListBinding mBinding;
+    private PhotoListViewModel mViewModel;
     private PhotoAdapter mAdapter;
 
     @Override
@@ -33,8 +34,7 @@ public class PhotoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_photo_list, container, false);
-        setHasOptionsMenu(true);
-
+        setHasOptionsMenu(true); //set has menu to true so that we can handle onBackPressed
         mAdapter = new PhotoAdapter(onPhotoClick);
         mBinding.photoList.setAdapter(mAdapter);
         return mBinding.getRoot();
@@ -50,10 +50,10 @@ public class PhotoFragment extends Fragment {
         PhotoListViewModel.Factory factory = new PhotoListViewModel.Factory(
                 requireActivity().getApplication(), mArgs.getAlbumId());
 
-        final PhotoListViewModel viewModel = new ViewModelProvider(this, factory)
+         mViewModel = new ViewModelProvider(this, factory)
                 .get(PhotoListViewModel.class);
 
-        addToModel(viewModel);
+        getData();
     }
 
     @Override
@@ -67,8 +67,8 @@ public class PhotoFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void addToModel(final PhotoListViewModel model) {
-        model.getPhotos().observe(this, photos -> mAdapter.setList(photos));
+    private void getData() {
+        mViewModel.getPhotos().observe(this, photos -> mAdapter.setList(photos));
     }
 
     private PhotoAdapter.OnClickCallback onPhotoClick = album -> {
