@@ -32,11 +32,12 @@
             <TextView
                 android:id="@+id/image_title"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="bottom"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="#4DFFFFFF"
+                android:text="@{item.title}"
                 android:textAlignment="center"
-                android:background="#ddffffff"
-                android:text="@{item.title}"/>
+                android:textAppearance="?android:textAppearanceSmall" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </layout>

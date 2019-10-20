@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,7 +28,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         this.mOnClickCallback = onClickCallback;
     }
 
-    public void setList(List<User> list) {
+    public void setList(final List<User> list) {
         if (this.mOriginalList == null) {
             this.mOriginalList = list;
             if (mOriginalList != null) {
@@ -42,7 +43,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
                 @Override
                 public int getNewListSize() {
-                    return mOriginalList.size();
+                    return list != null ? list.size() : 0;
                 }
 
                 @Override

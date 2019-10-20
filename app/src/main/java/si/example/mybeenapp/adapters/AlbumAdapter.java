@@ -27,7 +27,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
         this.mOnClickCallback = onClickCallback;
     }
 
-    public void setList(List<Album> list) {
+    public void setList(final List<Album> list) {
         if (this.mOriginalList == null) {
             this.mOriginalList = list;
             if (mOriginalList != null) {
@@ -42,19 +42,23 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
 
                 @Override
                 public int getNewListSize() {
-                    return mOriginalList.size();
+                    return list != null ? list.size() : 0;
                 }
 
                 @Override
                 public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                    return mOriginalList.get(oldItemPosition).id == list.get(newItemPosition).id;
+                    Album newItem = list.get(newItemPosition);
+                    Album oldItem = mOriginalList.get(oldItemPosition);
+                    return newItem.id == oldItem.id
+                            && Objects.equals(newItem.photo, oldItem.photo);
                 }
 
                 @Override
                 public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
                     Album newItem = list.get(newItemPosition);
                     Album oldItem = mOriginalList.get(oldItemPosition);
-                    return newItem.id == oldItem.id && Objects.equals(newItem.title, oldItem.title);
+                    return newItem.id == oldItem.id && Objects.equals(newItem.title, oldItem.title)
+                            && (newItem.photo != null && oldItem.photo != null && newItem.photo.id == oldItem.photo.id);
                 }
             });
             this.mOriginalList = list;
@@ -73,10 +77,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
     @Override
     public void onBindViewHolder(@NonNull AlbumViewHolder holder, int position) {
         holder.binding.setItem(mOriginalList.get(position));
-        if (mOriginalList.get(position).photos != null && mOriginalList.get(position).photos.size() > 0) {
-            holder.binding.setThumbnail(mOriginalList.get(position).photos.get(0).thumbnailUrl);
+        if (mOriginalList.get(position).photo != null) {
+            holder.binding.setThumbnail(mOriginalList.get(position).photo.thumbnailUrl);
         } else {
-            holder.binding.setThumbnail("https://via.placeholder.com/150/92c952");
+            holder.binding.setThumbnail(null);
         }
         holder.binding.executePendingBindings();
     }

@@ -1,6 +1,7 @@
 package si.example.mybeenapp.viewmodel;
 
 import android.app.Application;
+import android.util.Pair;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 
@@ -23,16 +24,12 @@ public class ViewModelTest {
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
     private Application mApplication;
-    private UserListViewModel userViewModel;
-    private AlbumListViewModel albumViewModel;
-    private PhotoListViewModel photosViewModel;
+    private MyViewModel mViewModel;
 
     @Before
     public void setUp() throws Exception {
         mApplication = Mockito.mock(Application.class);
-        userViewModel = new UserListViewModel(mApplication);
-        albumViewModel = new AlbumListViewModel(mApplication, 1);
-        photosViewModel = new PhotoListViewModel(mApplication, 1);
+        mViewModel = new MyViewModel(mApplication);
     }
 
     @After
@@ -41,21 +38,24 @@ public class ViewModelTest {
 
     @Test
     public void getUsers() throws InterruptedException {
-        List<User> userList = GetDataTestUtil.getValue(userViewModel.getUsers());
+        List<User> userList = GetDataTestUtil.getValue(mViewModel.getUsers());
         Assert.assertNotNull(userList);
         Assert.assertTrue(userList.size() > 0);
     }
 
     @Test
     public void getAlbums() throws InterruptedException {
-        List<Album> albumList = GetDataTestUtil.getValue(albumViewModel.getAlbums());
+        Pair<List<Album>, List<Photo>> albumList = GetDataTestUtil.getPairValue(mViewModel.getAlbums(1));
         Assert.assertNotNull(albumList);
-        Assert.assertTrue(albumList.size() > 0);
+        Assert.assertNotNull(albumList.first);
+        Assert.assertNotNull(albumList.second);
+        Assert.assertTrue(albumList.first.size() > 0);
+        Assert.assertTrue(albumList.second.size() > 0);
     }
 
     @Test
     public void getPhotos() throws InterruptedException {
-        List<Photo> photosList = GetDataTestUtil.getValue(photosViewModel.getPhotos());
+        List<Photo> photosList = GetDataTestUtil.getValue(mViewModel.getPhotos(1));
         Assert.assertNotNull(photosList);
         Assert.assertTrue(photosList.size() > 0);
     }

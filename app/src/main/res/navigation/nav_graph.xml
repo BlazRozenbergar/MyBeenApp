@@ -20,17 +20,46 @@
         <action android:id="@+id/action_album_to_photos"
             app:destination="@+id/fragment_photo" />
         <argument
-            android:name="user_id"
-            app:argType="integer"/>
+            android:name="user"
+            app:argType="si.example.mybeenapp.model.User"
+            app:nullable="true"
+            android:defaultValue="@null"/>
     </fragment>
     <fragment android:id="@+id/fragment_photo"
         android:name="si.example.mybeenapp.PhotoFragment"
         android:label="Photos"
         tools:layout="@layout/fragment_photo_list">
-        <!--<action android:id="@+id/action_album_to_photos"
-            app:destination="@+id/fragment_photos" />-->
+        <action android:id="@+id/action_photos_to_single_photo"
+            app:destination="@+id/fragment_single_photo" />
         <argument
-            android:name="album_id"
-            app:argType="integer"/>
+            android:name="album"
+            app:argType="si.example.mybeenapp.model.Album"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+        <argument
+            android:name="user"
+            app:argType="si.example.mybeenapp.model.User"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+    </fragment>
+    <fragment android:id="@+id/fragment_single_photo"
+        android:name="si.example.mybeenapp.SinglePhotoFragment"
+        android:label="Photo"
+        tools:layout="@layout/fragment_single_photo">
+        <argument
+            android:name="photo"
+            app:argType="si.example.mybeenapp.model.Photo"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+        <argument
+            android:name="album"
+            app:argType="si.example.mybeenapp.model.Album"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+        <argument
+            android:name="user"
+            app:argType="si.example.mybeenapp.model.User"
+            app:nullable="true"
+            android:defaultValue="@null"/>
     </fragment>
 </navigation>

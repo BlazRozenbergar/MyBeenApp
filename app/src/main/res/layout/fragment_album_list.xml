@@ -6,23 +6,39 @@
         <variable
             name="isLoading"
             type="boolean" />
+        <variable
+            name="isOffline"
+            type="boolean" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/album_list"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/album_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/progress_loading"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             style="@style/Widget.AppCompat.ProgressBar"
-            visibleGone="@{isLoading}"/>
+            shouldShow="@{isLoading}"/>
+
+        <TextView
+            android:id="@+id/is_offline_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/no_internet_connection_text"
+            shouldShow="@{isOffline}" />
     </FrameLayout>
 </layout>

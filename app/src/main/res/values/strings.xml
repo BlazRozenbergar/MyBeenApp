@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">My Been App</string>
     <string name="action_settings">Settings</string>
+    <string name="no_internet_connection_text">No internet connection\nTry enabling WIFI or mobile data</string>
 </resources>

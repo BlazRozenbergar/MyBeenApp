@@ -97,4 +97,20 @@ public class ApiRepository {
         });
         return data;
     }
+
+    public LiveData<List<Photo>> getAllPhotos() {
+        MediatorLiveData<List<Photo>> data = new MediatorLiveData<>();
+        mApiService.getAllPhotos().enqueue(new Callback<List<Photo>>() {
+            @Override
+            public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
+                data.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Photo>> call, Throwable t) {
+                data.setValue(null);
+            }
+        });
+        return data;
+    }
 }

@@ -25,4 +25,7 @@ public interface ApiService {
     Call<List<Photo>> getPhotos(
             @Query("albumId") int albumId
     );
+
+    @GET("photos")
+    Call<List<Photo>> getAllPhotos();
 }

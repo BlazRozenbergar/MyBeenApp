@@ -20,14 +20,14 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
     private PhotoAdapter.OnClickCallback mOnClickCallback;
 
     public interface OnClickCallback {
-        void onClick(Photo album);
+        void onClick(Photo photo);
     }
 
     public PhotoAdapter(PhotoAdapter.OnClickCallback onClickCallback) {
         this.mOnClickCallback = onClickCallback;
     }
 
-    public void setList(List<Photo> list) {
+    public void setList(final List<Photo> list) {
         if (this.mOriginalList == null) {
             this.mOriginalList = list;
             if (mOriginalList != null) {
@@ -42,7 +42,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
                 @Override
                 public int getNewListSize() {
-                    return mOriginalList.size();
+                    return list != null ? list.size() : 0;
                 }
 
                 @Override
