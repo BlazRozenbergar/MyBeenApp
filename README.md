@@ -10,7 +10,7 @@ Photos on photos screen are shown in 2 column or with devices wider than 600dp i
 Single photo screen hides/shows toolbar and details on tap of the photo.
 
 4 screens:
-- Users screen (Swipe up refresh data
+- Users screen
 - Albums screen
 - Photos screen
 - Single photo screen
