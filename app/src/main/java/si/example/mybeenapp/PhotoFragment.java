@@ -14,9 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import java.util.ArrayList;
-
-import si.example.mybeenapp.adapters.PhotoAdapter;
+import si.example.mybeenapp.adapters.PagedPhotoAdapter;
 import si.example.mybeenapp.databinding.FragmentPhotoListBinding;
 import si.example.mybeenapp.endpoint.NetworkUtil;
 import si.example.mybeenapp.model.Album;
@@ -30,7 +28,8 @@ public class PhotoFragment extends Fragment {
     private User mUser;
     private FragmentPhotoListBinding mBinding;
     private MyViewModel mViewModel;
-    private PhotoAdapter mAdapter;
+    //private PhotoAdapter mAdapter;
+    private PagedPhotoAdapter mAdapter;
     private NetworkUtil mNetworkUtil;
 
     @Override
@@ -47,7 +46,8 @@ public class PhotoFragment extends Fragment {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_photo_list, container, false);
         setHasOptionsMenu(true); //set has menu to true so that we can handle onBackPressed
         mNetworkUtil = new NetworkUtil(requireActivity().getApplication());
-        mAdapter = new PhotoAdapter(onPhotoClick);
+        //mAdapter = new PhotoAdapter(onPhotoClick);
+        mAdapter = new PagedPhotoAdapter(onPhotoClick);
         mBinding.swipeRefresh.setOnRefreshListener(onRefreshListener);
         mBinding.photoList.setAdapter(mAdapter);
         return mBinding.getRoot();
@@ -81,12 +81,18 @@ public class PhotoFragment extends Fragment {
         //Get data when online or wait for connection if currently offline
         if (mNetworkUtil.isOnline()) {
             mBinding.setIsLoading(true); //show loading progress
-            mViewModel.getPhotos(mAlbum.id).observe(this, photos -> {
+            mViewModel.getPagedPhotos(mAlbum.id).observe(this, photos -> {
+                mBinding.setIsLoading(false); //hide when data received
+                //mAdapter.setList(photos);
+                mAdapter.submitList(photos);
+            });
+            /*mViewModel.getPhotos(mAlbum.id).observe(this, photos -> {
                 mBinding.setIsLoading(false); //hide when data received
                 mAdapter.setList(photos);
-            });
+            });*/
         } else {
-            mAdapter.setList(new ArrayList<>());
+            //mAdapter.setList(new ArrayList<>());
+            mAdapter.submitList(null);
             waitForNetwork();
         }
     }
@@ -102,7 +108,15 @@ public class PhotoFragment extends Fragment {
         });
     }
 
-    private PhotoAdapter.OnClickCallback onPhotoClick = photo -> {
+    /*private PhotoAdapter.OnClickCallback onPhotoClick = photo -> {
+        PhotoFragmentDirections.ActionPhotosToSinglePhoto directions = PhotoFragmentDirections.actionPhotosToSinglePhoto();
+        directions.setPhoto(photo);
+        directions.setAlbum(mAlbum);
+        directions.setUser(mUser);
+        NavHostFragment.findNavController(this).navigate(directions);
+    };*/
+
+    private PagedPhotoAdapter.OnClickCallback onPhotoClick = photo -> {
         PhotoFragmentDirections.ActionPhotosToSinglePhoto directions = PhotoFragmentDirections.actionPhotosToSinglePhoto();
         directions.setPhoto(photo);
         directions.setAlbum(mAlbum);

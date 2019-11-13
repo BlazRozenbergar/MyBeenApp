@@ -3,7 +3,10 @@ package si.example.mybeenapp.endpoint;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.paging.PagedList;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -112,5 +115,16 @@ public class ApiRepository {
             }
         });
         return data;
+    }
+
+    public List<Photo> getPagedPhotos(int albumId, int page, int pageLimit) {
+        try {
+            Response<List<Photo>> response = mApiService.getPagedPhotos(albumId, page, pageLimit).execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
     }
 }

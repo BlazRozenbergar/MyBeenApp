@@ -11,6 +11,7 @@ import si.example.mybeenapp.model.User;
 
 public interface ApiService {
     String BASE_URL = "https://jsonplaceholder.typicode.com/";
+    int PAGE_LIMIT = 10;
 
     @GET("users")
     Call<List<User>> getUsers();
@@ -24,6 +25,13 @@ public interface ApiService {
     @GET("photos")
     Call<List<Photo>> getPhotos(
             @Query("albumId") int albumId
+    );
+
+    @GET("photos")
+    Call<List<Photo>> getPagedPhotos(
+            @Query("albumId") int albumId,
+            @Query("_page") int page,
+            @Query("_limit") int limit
     );
 
     @GET("photos")

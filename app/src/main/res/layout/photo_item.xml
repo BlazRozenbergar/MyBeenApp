@@ -8,7 +8,7 @@
             type="si.example.mybeenapp.model.Photo" />
         <variable
             name="clickCallback"
-            type="si.example.mybeenapp.adapters.PhotoAdapter.OnClickCallback" />
+            type="si.example.mybeenapp.adapters.PagedPhotoAdapter.OnClickCallback" />
     </data>
 
 

@@ -66,7 +66,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
     @Override
     public PhotoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         PhotoItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.photo_item, parent, false);
-        binding.setClickCallback(mOnClickCallback);
+        //binding.setClickCallback(mOnClickCallback);
         return new PhotoViewHolder(binding);
     }
 
